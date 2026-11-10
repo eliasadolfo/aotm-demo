@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deposits &amp; No-Show Reminders · Moonbeam demo</title>
+<meta name="description" content="The three emails that stop no-shows: booking confirmed, a reminder with Confirm and Reschedule, and a deposit link.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2B2118">
+<meta property="og:title" content="Deposits &amp; No-Show Reminders · Moonbeam demo">
+<meta property="og:description" content="The three emails that stop no-shows: booking confirmed, a reminder with Confirm and Reschedule, and a deposit link.">
+<meta property="og:image" content="https://demo.alloverthemoon.com/assets/aotm-logo-256.png">
+<link rel="icon" type="image/png" href="/assets/aotm-logo-256.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/demo.css">
+<script src="/assets/config.js"></script>
+<script src="/assets/demo.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ribbon" role="note"><div class="wrap"><b>DEMO</b><span>Moonbeam Outfitters is a pretend shop. Nothing is charged or saved.</span><a href="/demos/">All demos</a></div></div>
+<header class="mb-header"><div class="wrap"><a class="mb-brand" href="/"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#3E5A4C"/><path d="M24.5 8.5a8 8 0 1 0 6.8 11.8 6.4 6.4 0 1 1-6.8-11.8z" fill="#F7F2EC"/><path d="M4 31l9-11 6 7 4-4 13 8.5A20 20 0 0 1 4 31z" fill="#A26F45"/><path d="M13 20l3 3.6-2.2-.6-1.8 2.2-1.6-2.4z" fill="#F7F2EC"/></svg><span>Moonbeam Outfitters</span></a><span class="open" data-open aria-live="polite"></span></div></header>
+<main id="main">
+
+<div class="wrap">
+  <div class="intro">
+    <span class="kicker">Demo 5 · Get Booked</span>
+    <h1>Fewer empty slots</h1>
+    <p>Three emails a customer gets after booking. Tap Confirm and Pay to see what the owner gets.</p>
+    <div class="steps-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-step" data-n="1">
+      <p class="tl-when">When they book</p>
+      <div class="mail">
+        <div class="mail-head"><p class="mail-subject">Booked: <span class="d-what"></span>, <span class="d-sat"></span></p><div class="mail-from"><span class="avatar">MB</span><span>Moonbeam Outfitters · to Taylor</span></div></div>
+        <div class="mail-body">
+          <p>Thanks, Taylor. A <b>$25 deposit</b> holds your gear. It comes off your total at pick-up.</p>
+          <p class="small muted" style="margin:0">Cancel free up to 24 hours before. Later than that, we keep the deposit. That’s it, in plain words.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-step" data-n="2">
+      <p class="tl-when">2 days before, and the morning of</p>
+      <div class="mail">
+        <div class="mail-head"><p class="mail-subject">See you Saturday, Taylor</p><div class="mail-from"><span class="avatar">MB</span><span>Moonbeam Outfitters · to Taylor</span></div></div>
+        <div class="mail-body">
+          <p><span class="d-what"></span> · <span class="d-sat"></span> · pick-up Friday after 3 PM.</p>
+          <div class="btn-row" id="confirm-row"><button class="btn sm" id="confirm">Confirm</button><button class="btn sm ghost" id="resched">Reschedule</button></div>
+          <p id="confirm-msg" class="small hidden" style="color:var(--pine);font-weight:700;margin:8px 0 0" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-step" data-n="3">
+      <p class="tl-when">Booked by phone? You send this in two taps</p>
+      <div class="mail">
+        <div class="mail-head"><p class="mail-subject">Your deposit for Saturday</p><div class="mail-from"><span class="avatar">MB</span><span>Moonbeam Outfitters · to Taylor</span></div></div>
+        <div class="mail-body">
+          <p>Hi Taylor, here’s the link to hold your rentals for <span class="d-sat"></span>.</p>
+          <button class="btn block" id="pay">Pay $25 deposit</button>
+          <p id="paid-msg" class="small hidden" style="color:var(--pine);font-weight:700;margin:8px 0 0" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="owner hidden" id="owner">
+    <p class="lead-in">On the owner’s side</p>
+    <h2>Confirmed, and the deposit is in</h2>
+    <ul class="cb">
+      <li><b>Taylor · <span class="d-what"></span></b><span class="tag ok">Confirmed</span><span class="what">Deposit $25 paid · <span class="d-sat"></span></span></li>
+    </ul>
+    <p class="small muted" style="margin:12px 0 0">If they cancel late or don’t show, you keep the deposit instead of an empty slot. If they reschedule, the slot opens for someone else.</p>
+  </div>
+</div>
+<script>
+  const { $, $$, addDays, fmtDay } = MB
+  // next Saturday in a rental season: ski packages in winter, kayaks in summer and fall
+  let sat = addDays(1), kind = null
+  for (let i = 0; i < 400 && !kind; i++) { if (sat.getDay() === 6) { const s = MB.seasonOf(sat).name; kind = s === 'Ski season' ? 'ski' : (s === 'Summer' || s === 'Foliage') ? 'kayak' : null } if (!kind) sat.setDate(sat.getDate() + 1) }
+  const what = kind === 'kayak' ? '2 single kayaks' : '2 adult ski packages'
+  $$('.d-sat').forEach(e => e.textContent = fmtDay(sat))
+  $$('.d-what').forEach(e => e.textContent = what)
+  let n = 1
+  const step = () => { n++; MB.steps(n); if (n >= 3) $('#owner').classList.remove('hidden') }
+  $('#confirm').onclick = () => { $('#confirm-row').classList.add('hidden'); const m = $('#confirm-msg'); m.textContent = '✓ Confirmed. Moonbeam knows you’re coming.'; m.classList.remove('hidden'); step() }
+  $('#resched').onclick = () => MB.sheet('<p class="panel-title">Reschedule</p><h2>Pick a new day</h2><p>In the real setup this opens the booking page with the same rental, so Taylor picks another day and the Saturday slot opens up for someone else.</p><a class="btn block" href="/book/">Open the booking page</a>', { label: 'Reschedule' })
+  $('#pay').onclick = () => MB.pay({ title: 'Deposit · Saturday rental', lines: [[what + ' · deposit', 25]], onPaid: () => { $('#pay').classList.add('hidden'); const m = $('#paid-msg'); m.textContent = '✓ Paid (demo). A receipt is on its way.'; m.classList.remove('hidden'); step() } })
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cta-band"><h2>Want this for your business?</h2><p class="muted">All Over The Moon sets it up for you, in your name. You don’t learn any software.</p><a class="btn" href="/demos/">See all the demos</a></div>
+<p style="margin-top:32px"><a class="aotm" href="/demos/"><img src="/assets/aotm-logo-256.png" alt="" width="40" height="36">All Over The Moon</a></p>
+<p>Demo by All Over The Moon, Rumney, NH. Moonbeam Outfitters, its people, prices and hours are made up.</p>
+</div></footer>
+</body>
+</html>

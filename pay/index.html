@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pay-by-Link · Moonbeam demo</title>
+<meta name="description" content="A $1 demo deposit link: open it on a phone and pay in two taps. Nothing is charged.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2B2118">
+<meta property="og:title" content="Pay-by-Link · Moonbeam demo">
+<meta property="og:description" content="A $1 demo deposit link: open it on a phone and pay in two taps. Nothing is charged.">
+<meta property="og:image" content="https://demo.alloverthemoon.com/assets/aotm-logo-256.png">
+<link rel="icon" type="image/png" href="/assets/aotm-logo-256.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/demo.css">
+<script src="/assets/config.js"></script>
+<script src="/assets/demo.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ribbon" role="note"><div class="wrap"><b>DEMO</b><span>Moonbeam Outfitters is a pretend shop. Nothing is charged or saved.</span><a href="/demos/">All demos</a></div></div>
+<header class="mb-header"><div class="wrap"><a class="mb-brand" href="/"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#3E5A4C"/><path d="M24.5 8.5a8 8 0 1 0 6.8 11.8 6.4 6.4 0 1 1-6.8-11.8z" fill="#F7F2EC"/><path d="M4 31l9-11 6 7 4-4 13 8.5A20 20 0 0 1 4 31z" fill="#A26F45"/><path d="M13 20l3 3.6-2.2-.6-1.8 2.2-1.6-2.4z" fill="#F7F2EC"/></svg><span>Moonbeam Outfitters</span></a><span class="open" data-open aria-live="polite"></span></div></header>
+<main id="main">
+
+<div class="wrap">
+  <div class="intro">
+    <span class="kicker">Demo 8 · Get Paid</span>
+    <h1>From “yes” to paid, in two taps</h1>
+    <p>This is the link a shop emails while the customer is still on the phone. Open it, pay, done. Nothing is charged.</p>
+    <div class="steps-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  </div>
+
+  <section data-screen="link">
+    <div class="card" style="text-align:center">
+      <div style="width:56px;height:56px;margin:0 auto 12px"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#3E5A4C"/><path d="M24.5 8.5a8 8 0 1 0 6.8 11.8 6.4 6.4 0 1 1-6.8-11.8z" fill="#F7F2EC"/><path d="M4 31l9-11 6 7 4-4 13 8.5A20 20 0 0 1 4 31z" fill="#A26F45"/><path d="M13 20l3 3.6-2.2-.6-1.8 2.2-1.6-2.4z" fill="#F7F2EC"/></svg></div>
+      <p class="muted" style="margin:0">DEMO · Moonbeam Outfitters requests</p>
+      <p style="font-family:var(--font-display);font-size:3rem;font-weight:700;margin:4px 0">$1.00</p>
+      <p style="margin:0 0 16px">Practice deposit (DEMO)</p>
+      <button class="btn block" id="pay">Pay $1.00</button>
+      <p class="nosave big" style="margin-top:12px">DEMO: the payment screen is pretend. No money moves.</p>
+    </div>
+    <div class="card flat" style="margin-top:16px">
+      <p class="panel-title">Showing someone? Send them the link</p>
+      <p class="small muted">Email or text this page so they open it on their own phone.</p>
+      <button class="btn block ghost" id="share">Send the $1 link</button>
+    </div>
+  </section>
+
+  <section data-screen="done" class="hidden">
+    <div class="done"><div class="tick" id="tick"></div><h1>Paid</h1><p class="muted">$1.00 to Moonbeam Outfitters (demo). A receipt is on its way.</p></div>
+    <div class="mail arrive">
+      <div class="mail-bar"><b>Inbox</b><span id="t1"></span></div>
+      <div class="mail-head"><p class="mail-subject">Receipt from Moonbeam Outfitters</p><div class="mail-from"><span class="avatar">MB</span><span>Moonbeam Outfitters</span></div></div>
+      <div class="mail-body"><dl class="summary"><dt>Amount</dt><dd>$1.00</dd><dt>For</dt><dd>Demo deposit</dd><dt>Paid</dt><dd id="t2"></dd></dl></div>
+    </div>
+    <div class="owner">
+      <p class="lead-in">On the owner’s side</p>
+      <h2>Money in, no chasing</h2>
+      <p class="muted" style="margin:0">No check in the mail, no “I’ll Venmo you later”. Every payment lands in your account with a receipt, and ready-made links for deposits, balances and pre-orders sit on your phone.</p>
+    </div>
+  </section>
+</div>
+<script>
+  const { $, nowTime, ICON } = MB
+  $('#pay').onclick = () => { MB.steps(2); MB.pay({ title: 'Demo deposit', lines: [['Deposit · holds your rental', 1]], onPaid: () => { $('#tick').innerHTML = ICON.check; $('#t1').textContent = 'just now · ' + nowTime(); $('#t2').textContent = 'Today, ' + nowTime(); MB.show('done'); MB.steps(3) } }) }
+  $('#share').onclick = async () => {
+    const url = location.origin + '/pay/'
+    if (navigator.share) { try { await navigator.share({ title: 'Moonbeam DEMO: nothing is charged', text: 'A demo from All Over The Moon. It is a pretend payment page, nothing is charged:', url }) } catch (e) {} return }
+    try { await navigator.clipboard.writeText(url); MB.sheet('<p class="panel-title">Link copied</p><h2>Paste it in an email or text</h2><p class="muted">' + url + '</p>', { label: 'Link copied' }) }
+    catch (e) { MB.sheet('<p class="panel-title">The link</p><h2>' + url + '</h2>', { label: 'Link' }) }
+  }
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cta-band"><h2>Want this for your business?</h2><p class="muted">All Over The Moon sets it up for you, in your name. You don’t learn any software.</p><a class="btn" href="/demos/">See all the demos</a></div>
+<p style="margin-top:32px"><a class="aotm" href="/demos/"><img src="/assets/aotm-logo-256.png" alt="" width="40" height="36">All Over The Moon</a></p>
+<p>Demo by All Over The Moon, Rumney, NH. Moonbeam Outfitters, its people, prices and hours are made up.</p>
+</div></footer>
+</body>
+</html>

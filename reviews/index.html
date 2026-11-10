@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Review Requests · Moonbeam demo</title>
+<meta name="description" content="The friendly email every customer gets after a visit, with one button straight to the review box.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2B2118">
+<meta property="og:title" content="Review Requests · Moonbeam demo">
+<meta property="og:description" content="The friendly email every customer gets after a visit, with one button straight to the review box.">
+<meta property="og:image" content="https://demo.alloverthemoon.com/assets/aotm-logo-256.png">
+<link rel="icon" type="image/png" href="/assets/aotm-logo-256.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/demo.css">
+<script src="/assets/config.js"></script>
+<script src="/assets/demo.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ribbon" role="note"><div class="wrap"><b>DEMO</b><span>Moonbeam Outfitters is a pretend shop. Nothing is charged or saved.</span><a href="/demos/">All demos</a></div></div>
+<header class="mb-header"><div class="wrap"><a class="mb-brand" href="/"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#3E5A4C"/><path d="M24.5 8.5a8 8 0 1 0 6.8 11.8 6.4 6.4 0 1 1-6.8-11.8z" fill="#F7F2EC"/><path d="M4 31l9-11 6 7 4-4 13 8.5A20 20 0 0 1 4 31z" fill="#A26F45"/><path d="M13 20l3 3.6-2.2-.6-1.8 2.2-1.6-2.4z" fill="#F7F2EC"/></svg><span>Moonbeam Outfitters</span></a><span class="open" data-open aria-live="polite"></span></div></header>
+<main id="main">
+
+<div class="wrap">
+  <div class="intro">
+    <span class="kicker">Demo 10 · Get Customers Back</span>
+    <h1>Happy customers, asked nicely</h1>
+    <p>The day after a rental, every customer gets this short email. Tap the button like they would.</p>
+    <div class="steps-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  </div>
+
+  <div class="mail">
+    <div class="mail-bar"><b>Inbox</b><span>yesterday’s rental</span></div>
+    <div class="mail-head"><p class="mail-subject">How was the mountain, Taylor?</p><div class="mail-from"><span class="avatar">MB</span><span>Sam at Moonbeam Outfitters</span></div></div>
+    <div class="mail-body">
+      <p>Thanks for renting with us yesterday. If you have 30 seconds, a review helps a small shop like ours more than you’d think.</p>
+      <button class="btn block" id="review">Leave a review</button>
+      <p class="small muted" style="margin:10px 0 0">Questions about your rental? Just reply to this email. Sam</p>
+    </div>
+  </div>
+
+  <div class="owner hidden" id="owner">
+    <p class="lead-in">Why it works</p>
+    <h2>Every customer, the same way</h2>
+    <ul class="diff">
+      <li>It goes to everyone after each visit, not only the happy ones. Google doesn’t allow asking only the happy ones, and it looks more honest too.</li>
+      <li>One button, straight to the review box. No searching for your page.</li>
+      <li>A “Review us” QR card at the counter for customers who never gave an email.</li>
+    </ul>
+  </div>
+</div>
+<script>
+  const { $, $$, sheet, close } = MB
+  const STAR = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>'
+  $('#review').onclick = () => {
+    MB.steps(2)
+    const b = sheet(`<p class="panel-title">Review · Moonbeam Outfitters</p><h2>Rate your visit</h2>
+      <div class="rate" role="radiogroup" aria-label="Stars">${[1, 2, 3, 4, 5].map(n => `<button type="button" role="radio" aria-checked="false" aria-label="${n} star${n > 1 ? 's' : ''}" data-s="${n}">${STAR}</button>`).join('')}</div>
+      <label class="field">Your review<textarea id="rv" placeholder="Tell us how it went"></textarea></label>
+      <button class="btn block" id="post" disabled>Post</button>
+      <p class="nosave big center">DEMO: on a real business this is the Google review box. Nothing gets posted here.</p>`, { label: 'Review' })
+    let s = 0
+    $$('[data-s]', b).forEach(x => x.onclick = () => { s = +x.dataset.s; $$('[data-s]', b).forEach(y => { y.classList.toggle('on', +y.dataset.s <= s); y.setAttribute('aria-checked', +y.dataset.s === s) }); $('#post', b).disabled = false })
+    $('#post', b).onclick = () => { close(); MB.steps(3); $('#review').outerHTML = '<p style="color:var(--pine);font-weight:700" aria-live="polite">✓ Thanks for the ' + s + '-star review! (Demo: nothing was posted.)</p>'; $('#owner').classList.remove('hidden'); $('#owner').scrollIntoView({ behavior: 'smooth', block: 'start' }) }
+  }
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cta-band"><h2>Want this for your business?</h2><p class="muted">All Over The Moon sets it up for you, in your name. You don’t learn any software.</p><a class="btn" href="/demos/">See all the demos</a></div>
+<p style="margin-top:32px"><a class="aotm" href="/demos/"><img src="/assets/aotm-logo-256.png" alt="" width="40" height="36">All Over The Moon</a></p>
+<p>Demo by All Over The Moon, Rumney, NH. Moonbeam Outfitters, its people, prices and hours are made up.</p>
+</div></footer>
+</body>
+</html>

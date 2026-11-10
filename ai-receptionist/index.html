@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI Phone Receptionist · Moonbeam demo</title>
+<meta name="description" content="An assistant that answers the shop&#x27;s phone, answers the usual questions, takes the booking and emails the owner a summary.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2B2118">
+<meta property="og:title" content="AI Phone Receptionist · Moonbeam demo">
+<meta property="og:description" content="An assistant that answers the shop&#x27;s phone, answers the usual questions, takes the booking and emails the owner a summary.">
+<meta property="og:image" content="https://demo.alloverthemoon.com/assets/aotm-logo-256.png">
+<link rel="icon" type="image/png" href="/assets/aotm-logo-256.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/demo.css">
+<script src="/assets/config.js"></script>
+<script src="/assets/demo.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ribbon" role="note"><div class="wrap"><b>DEMO</b><span>Moonbeam Outfitters is a pretend shop. Nothing is charged or saved.</span><a href="/demos/">All demos</a></div></div>
+<header class="mb-header"><div class="wrap"><a class="mb-brand" href="/"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#3E5A4C"/><path d="M24.5 8.5a8 8 0 1 0 6.8 11.8 6.4 6.4 0 1 1-6.8-11.8z" fill="#F7F2EC"/><path d="M4 31l9-11 6 7 4-4 13 8.5A20 20 0 0 1 4 31z" fill="#A26F45"/><path d="M13 20l3 3.6-2.2-.6-1.8 2.2-1.6-2.4z" fill="#F7F2EC"/></svg><span>Moonbeam Outfitters</span></a><span class="open" data-open aria-live="polite"></span></div></header>
+<main id="main">
+
+<div class="wrap">
+  <div class="intro">
+    <span class="kicker">Demo 6 · Get Booked</span>
+    <h1>The same ten questions, answered</h1>
+    <p>An assistant answers when you can’t, in Moonbeam’s name. It knows the hours and prices, takes the booking, and hands real problems to a person.</p>
+    <div class="steps-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  </div>
+
+  <div class="card" style="text-align:center" data-needs-line>
+    <p class="panel-title">Best way: call it yourself</p>
+    <p class="muted">Ask what a customer would: “Are you open Sunday? How much for two ski packages?”</p>
+    <button class="btn block" data-call="ai" id="callbtn">Call the demo line</button>
+    <p class="small muted" style="margin:8px 0 0" id="callnote">The live line is being set up. Meanwhile, play the example below.</p>
+  </div>
+
+  <div class="call-card" id="call" style="margin-top:16px">
+    <div class="ring"></div>
+    <p class="who">Moonbeam Outfitters</p>
+    <p class="state" id="state" aria-live="polite">Tap Play and listen. It takes under a minute.</p>
+  </div>
+  <div class="chat" id="chat" aria-live="polite"></div>
+  <div class="stack" id="start" style="margin-top:16px">
+    <button class="btn block dark" id="play">Play the example call</button>
+    <label class="check" style="justify-content:center;margin:4px 0 0"><input type="checkbox" id="sound" checked> Read it out loud</label>
+    <p class="small muted center" style="margin:0">Sound on: about 55 seconds. Sound off: about 30.</p>
+  </div>
+
+  <div id="owner" class="hidden">
+    <div class="owner">
+      <p class="lead-in">Right after the call · the owner’s email</p>
+      <div class="mail arrive">
+        <div class="mail-bar"><b>Inbox</b><span id="t1"></span></div>
+        <div class="mail-head"><p class="mail-subject">Call answered: rental request for Saturday</p><div class="mail-from"><span class="avatar">AI</span><span>Moonbeam phone assistant · to Sam</span></div></div>
+        <div class="mail-body">
+          <dl class="summary">
+            <dt>Caller</dt><dd>Taylor Brooks · (603) 555-0172</dd>
+            <dt>Asked</dt><dd>Sunday hours, price of 2 ski packages</dd>
+            <dt>Booked</dt><dd>2 adult ski packages, Sat · pick-up Fri night</dd>
+            <dt>Needs you</dt><dd><span class="tag hot">Call back</span> asked to talk to Sam</dd>
+          </dl>
+          <p class="small muted" style="margin:0">Full transcript below the summary. No audio is kept.</p>
+        </div>
+      </div>
+      <div class="mail arrive" style="margin-top:12px">
+        <div class="mail-head"><p class="mail-subject">Your Moonbeam rental request</p><div class="mail-from"><span class="avatar">MB</span><span>Moonbeam Outfitters · to Taylor</span></div></div>
+        <div class="mail-body"><p style="margin:0">Hi Taylor, thanks for calling. We have 2 adult ski packages down for Saturday, pick-up Friday after 3 PM. We’ll confirm by email.</p></div>
+      </div>
+    </div>
+    <div class="card flat" style="margin-top:16px">
+      <p class="panel-title">How it’s set up</p>
+      <ul class="diff">
+        <li>It sticks to your hours, prices and rules. If it isn’t sure, it takes a message for you.</li>
+        <li>If a caller is upset or asks for a person, it marks the call for you to call back.</li>
+        <li>It tells callers the call is transcribed. You get the text, not a recording.</li>
+      </ul>
+    </div>
+    <button class="btn ghost block" style="margin-top:20px" id="again">Play it again</button>
+  </div>
+</div>
+<script>
+  const { $, wait, say, nowTime, ICON } = MB
+  $('#call .ring').innerHTML = ICON.phone
+  if ((window.MB_CONFIG || {}).aiLine) { $('#callnote').textContent = 'It answers in Moonbeam’s name. Put it on speaker.' }
+  const T = [
+    ['line', 'Thanks for calling Moonbeam Outfitters, this call is transcribed. How can I help?'],
+    ['caller', 'Hi, are you open Sunday?'],
+    ['line', 'Yes. In ski season we’re open Sunday from 7:30 in the morning to 6 in the evening.'],
+    ['caller', 'How much for two adult ski packages?'],
+    ['line', 'An adult ski package is 49 dollars a day, so 98 dollars for two. Would you like me to put in a request for a date?'],
+    ['caller', 'Saturday, and we’d pick up Friday night.'],
+    ['line', 'Great, evening pick-up after 3 PM is free. Can I get your name and email for the confirmation?'],
+    ['caller', 'Taylor Brooks. Actually, can I talk to Sam?'],
+    ['line', 'Sam is with customers right now. I’ve marked it as a priority call-back, and Sam will call you today. Anything else?'],
+    ['caller', 'That’s it, thanks!']
+  ]
+  function bubble(cls, who, text) { const b = document.createElement('div'); b.className = 'bubble ' + cls; b.innerHTML = '<small>' + who + '</small>' + MB.esc(text); $('#chat').appendChild(b); b.scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }
+  async function run() {
+    say.on = $('#sound').checked; if (window.speechSynthesis) speechSynthesis.cancel()
+    $('#start').classList.add('hidden'); $('#owner').classList.add('hidden'); $('#chat').innerHTML = ''
+    const c = $('#call'), st = $('#state')
+    c.classList.add('ringing'); st.textContent = 'Ringing…'; await wait(1400); c.classList.remove('ringing'); st.textContent = 'Answered by the assistant'
+    MB.steps(2)
+    for (const [who, text] of T) { bubble(who === 'line' ? 'them' : 'me', who === 'line' ? 'Assistant' : 'Caller', text); await say(text, who) ; await wait(250) }
+    st.textContent = 'Call ended · 0:52'
+    await wait(900)
+    $('#t1').textContent = 'just now · ' + nowTime()
+    $('#owner').classList.remove('hidden'); MB.steps(3)
+    $('#owner').scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+  $('#play').onclick = run
+  $('#again').onclick = () => { window.scrollTo({ top: 0, behavior: 'smooth' }); run() }
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cta-band"><h2>Want this for your business?</h2><p class="muted">All Over The Moon sets it up for you, in your name. You don’t learn any software.</p><a class="btn" href="/demos/">See all the demos</a></div>
+<p style="margin-top:32px"><a class="aotm" href="/demos/"><img src="/assets/aotm-logo-256.png" alt="" width="40" height="36">All Over The Moon</a></p>
+<p>Demo by All Over The Moon, Rumney, NH. Moonbeam Outfitters, its people, prices and hours are made up.</p>
+</div></footer>
+</body>
+</html>

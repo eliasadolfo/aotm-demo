@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simple Online Ordering · Moonbeam demo</title>
+<meta name="description" content="Order a coffee and a muffin for pickup in 15 minutes, and see the order land in the kitchen.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2B2118">
+<meta property="og:title" content="Simple Online Ordering · Moonbeam demo">
+<meta property="og:description" content="Order a coffee and a muffin for pickup in 15 minutes, and see the order land in the kitchen.">
+<meta property="og:image" content="https://demo.alloverthemoon.com/assets/aotm-logo-256.png">
+<link rel="icon" type="image/png" href="/assets/aotm-logo-256.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/demo.css">
+<script src="/assets/config.js"></script>
+<script src="/assets/demo.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ribbon" role="note"><div class="wrap"><b>DEMO</b><span>Moonbeam Outfitters is a pretend shop. Nothing is charged or saved.</span><a href="/demos/">All demos</a></div></div>
+<header class="mb-header"><div class="wrap"><a class="mb-brand" href="/"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#3E5A4C"/><path d="M24.5 8.5a8 8 0 1 0 6.8 11.8 6.4 6.4 0 1 1-6.8-11.8z" fill="#F7F2EC"/><path d="M4 31l9-11 6 7 4-4 13 8.5A20 20 0 0 1 4 31z" fill="#A26F45"/><path d="M13 20l3 3.6-2.2-.6-1.8 2.2-1.6-2.4z" fill="#F7F2EC"/></svg><span>Moonbeam Outfitters</span></a><span class="open" data-open aria-live="polite"></span></div></header>
+<main id="main">
+
+<div class="wrap">
+  <div class="intro">
+    <span class="kicker">Demo 9 · Get Paid</span>
+    <h1>Trailhead coffee bar</h1>
+    <p>Moonbeam’s little coffee counter. Order a coffee and a muffin for pickup, the way you’d do it on a busy Friday.</p>
+    <div class="steps-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  </div>
+
+  <section data-screen="menu">
+    <ul class="menu" id="menu"></ul>
+    <h2 class="panel-title" style="margin-top:24px">Pickup</h2>
+    <div class="chips" id="when"><button type="button" class="chip" data-w="15" aria-pressed="true">In 15 min</button><button type="button" class="chip" data-w="30">In 30 min</button><button type="button" class="chip" data-w="60">In 1 hour</button></div>
+    <form style="margin-top:16px"><label class="field">Name for the order<input id="name" autocomplete="off" placeholder="Taylor"></label></form>
+    <div class="cartbar"><button class="btn block" id="go" disabled>Add something to order</button></div>
+  </section>
+
+  <section data-screen="done" class="hidden">
+    <div class="done"><div class="tick" id="tick"></div><h1>Order received</h1><p class="muted" id="ready"></p></div>
+    <div class="mail arrive">
+      <div class="mail-bar"><b>Inbox</b><span id="t1"></span></div>
+      <div class="mail-head"><p class="mail-subject" id="o-subj"></p><div class="mail-from"><span class="avatar">MB</span><span>Moonbeam Outfitters</span></div></div>
+      <div class="mail-body"><div id="o-lines"></div><p class="small muted" style="margin:8px 0 0">Pay at pickup, or pay ahead in the real setup.</p></div>
+    </div>
+    <div class="owner">
+      <p class="lead-in">Same second, at the counter</p>
+      <div class="ticket arrive" id="ticket"></div>
+      <div class="toggle" style="margin-top:12px"><span><b>Taking online orders</b><br><span class="small muted" id="pause-note">Busy? Pause with one tap.</span></span><label class="switch"><input type="checkbox" id="pause" checked aria-label="Taking online orders"><i></i></label></div>
+      <p class="small muted" style="margin:4px 0 0">Nobody wrote it down wrong, and the phone stayed free.</p>
+    </div>
+    <button class="btn ghost block" style="margin-top:20px" onclick="location.reload()">Order again</button>
+  </section>
+</div>
+<script>
+  const { $, $$, esc, money2, nhNow, nowTime, ICON } = MB
+  const M = [
+    { id: 'drip', e: '☕', name: 'House coffee', sub: 'Local roast, 12 oz', p: 3 },
+    { id: 'latte', e: '🥛', name: 'Maple latte', sub: 'NH maple syrup', p: 4.75 },
+    { id: 'cocoa', e: '🍫', name: 'Hot chocolate', sub: 'With whipped cream', p: 3.5 },
+    { id: 'muffin', e: '🧁', name: 'Blueberry muffin', sub: 'Baked this morning', p: 3.25 },
+    { id: 'burrito', e: '🌯', name: 'Breakfast burrito', sub: 'Egg, cheese, potato', p: 7.5 }
+  ]
+  const q = {}; let w = 15
+  $('#menu').innerHTML = M.map(i => `<li><span class="pic" aria-hidden="true">${i.e}</span><span><b>${i.name}</b><span>${i.sub} · ${money2(i.p)}</span></span><span class="qty"><button type="button" data-m="${i.id}" data-d="-1" aria-label="Remove ${i.name}" class="hidden">−</button><output id="q-${i.id}" class="hidden">0</output><button type="button" class="add" data-m="${i.id}" data-d="1" aria-label="Add ${i.name}">+</button></span></li>`).join('')
+  const total = () => M.reduce((s, i) => s + (q[i.id] || 0) * i.p, 0)
+  const count = () => Object.values(q).reduce((a, b) => a + b, 0)
+  function paint() {
+    M.forEach(i => { const n = q[i.id] || 0; $('#q-' + i.id).textContent = n; $('#q-' + i.id).classList.toggle('hidden', !n); $(`[data-m="${i.id}"][data-d="-1"]`).classList.toggle('hidden', !n) })
+    const c = count(); $('#go').disabled = !c
+    $('#go').textContent = c ? `Place order · ${c} item${c > 1 ? 's' : ''} · ${money2(total())}` : 'Add something to order'
+    MB.steps(c ? 2 : 1)
+  }
+  $$('[data-m]').forEach(b => b.onclick = () => { q[b.dataset.m] = Math.max(0, (q[b.dataset.m] || 0) + +b.dataset.d); paint() })
+  $$('[data-w]').forEach(b => b.onclick = () => { w = +b.dataset.w; $$('[data-w]').forEach(x => x.setAttribute('aria-pressed', x === b)) })
+  $('#go').onclick = () => {
+    const name = $('#name').value.trim() || 'Taylor', t = nhNow(); t.setMinutes(t.getMinutes() + w)
+    const at = t.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }), num = 100 + Math.floor(Math.random() * 800)
+    const lines = M.filter(i => q[i.id]).map(i => [q[i.id] + ' × ' + i.name, q[i.id] * i.p])
+    $('#tick').innerHTML = ICON.check
+    $('#ready').textContent = `Order #${num} · ready at ${at}. We’ll have it at the counter.`
+    $('#t1').textContent = 'just now · ' + nowTime()
+    $('#o-subj').textContent = `Order #${num} received · ready at ${at}`
+    $('#o-lines').innerHTML = lines.map(l => `<div class="pay-line"><span>${esc(l[0])}</span><span>${money2(l[1])}</span></div>`).join('') + `<div class="pay-line total"><span>Total</span><span>${money2(total())}</span></div>`
+    $('#ticket').innerHTML = `<b>ONLINE ORDER #${num}</b><br>${esc(name.toUpperCase())} · PICKUP ${at}<hr>${lines.map(l => esc(l[0])).join('<br>')}<hr>${money2(total())} · pay at pickup`
+    MB.show('done'); MB.steps(3)
+  }
+  $('#pause').onchange = e => { $('#pause-note').textContent = e.target.checked ? 'Busy? Pause with one tap.' : 'Paused. The online menu says “back soon”.' }
+  paint()
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cta-band"><h2>Want this for your business?</h2><p class="muted">All Over The Moon sets it up for you, in your name. You don’t learn any software.</p><a class="btn" href="/demos/">See all the demos</a></div>
+<p style="margin-top:32px"><a class="aotm" href="/demos/"><img src="/assets/aotm-logo-256.png" alt="" width="40" height="36">All Over The Moon</a></p>
+<p>Demo by All Over The Moon, Rumney, NH. Moonbeam Outfitters, its people, prices and hours are made up.</p>
+</div></footer>
+</body>
+</html>

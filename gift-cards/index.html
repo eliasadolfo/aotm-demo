@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Online Gift Cards · Moonbeam demo</title>
+<meta name="description" content="Buy a gift card from a phone in under a minute, all the way to the payment screen. Nothing is charged.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2B2118">
+<meta property="og:title" content="Online Gift Cards · Moonbeam demo">
+<meta property="og:description" content="Buy a gift card from a phone in under a minute, all the way to the payment screen. Nothing is charged.">
+<meta property="og:image" content="https://demo.alloverthemoon.com/assets/aotm-logo-256.png">
+<link rel="icon" type="image/png" href="/assets/aotm-logo-256.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/demo.css">
+<script src="/assets/config.js"></script>
+<script src="/assets/demo.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ribbon" role="note"><div class="wrap"><b>DEMO</b><span>Moonbeam Outfitters is a pretend shop. Nothing is charged or saved.</span><a href="/demos/">All demos</a></div></div>
+<header class="mb-header"><div class="wrap"><a class="mb-brand" href="/"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#3E5A4C"/><path d="M24.5 8.5a8 8 0 1 0 6.8 11.8 6.4 6.4 0 1 1-6.8-11.8z" fill="#F7F2EC"/><path d="M4 31l9-11 6 7 4-4 13 8.5A20 20 0 0 1 4 31z" fill="#A26F45"/><path d="M13 20l3 3.6-2.2-.6-1.8 2.2-1.6-2.4z" fill="#F7F2EC"/></svg><span>Moonbeam Outfitters</span></a><span class="open" data-open aria-live="polite"></span></div></header>
+<main id="main">
+
+<div class="wrap">
+  <div class="intro">
+    <span class="kicker">Demo 7 · Get Paid</span>
+    <h1>Give the mountains</h1>
+    <p>Buy a Moonbeam gift card like an out-of-town family would, all the way to the payment screen. Nothing is charged.</p>
+    <div class="steps-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  </div>
+
+  <section data-screen="pick">
+    <div class="gift" id="preview"><div id="art"></div><span class="nm">Moonbeam Outfitters</span><span class="amt" id="amt">$50</span></div>
+
+    <h2 class="panel-title" style="margin-top:20px">Design</h2>
+    <div class="designs" id="designs">
+      <button type="button" data-d="peaks" aria-label="Moonlit peaks"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="320" height="200" fill="#2F463B"/><circle cx="240" cy="58" r="30" fill="#F7F2EC"/><circle cx="252" cy="52" r="26" fill="#2F463B"/>
+<path d="M0 150l70-70 40 40 60-74 70 84 40-30 40 40v60H0z" fill="#6E8B7B"/><path d="M170 46l20 24-10-3-10 10-9-12zM70 80l12 12-8-2-4 5-5-6z" fill="#F7F2EC"/><path d="M0 172l100-28 90 22 130-30v64H0z" fill="#3E5A4C"/></svg></button>
+      <button type="button" data-d="lake" aria-label="Summer lake"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="320" height="200" fill="#E8B886"/><circle cx="96" cy="70" r="30" fill="#FFF3D6"/><path d="M0 120l60-34 50 24 70-46 80 50 60-26v52H0z" fill="#A26F45"/><rect y="128" width="320" height="72" fill="#3E5A4C"/>
+<path d="M150 158c26 10 74 10 100 0-26-7-74-7-100 0z" fill="#F7F2EC"/><path d="M0 142h320" stroke="#6E8B7B" stroke-width="3"/></svg></button>
+      <button type="button" data-d="plain" aria-label="Moonbeam classic"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="320" height="200" fill="#8A5A33"/><circle cx="160" cy="96" r="54" fill="#A26F45"/><path d="M174 62a34 34 0 1 0 28 50 27 27 0 1 1-28-50z" fill="#F7F2EC"/><path d="M0 200l90-60 50 30 50-34 130 64z" fill="#5B3B22"/></svg></button>
+    </div>
+
+    <h2 class="panel-title" style="margin-top:20px">Amount</h2>
+    <div class="chips" id="amounts">
+      <button type="button" class="chip" data-a="25">$25</button><button type="button" class="chip" data-a="50">$50</button><button type="button" class="chip" data-a="100">$100</button><button type="button" class="chip" data-a="200">$200</button>
+    </div>
+
+    <form style="margin-top:20px">
+      <label class="field">To<input id="to" autocomplete="off" placeholder="Grandpa Joe"></label>
+      <label class="field">Their email <span class="hint big">DEMO: no email is sent. The “inbox” you’ll see is a picture.</span><input id="toemail" type="email" autocomplete="off" placeholder="joe@example.com"></label>
+      <label class="field">Message<textarea id="msg" placeholder="Happy holidays! First run’s on us."></textarea></label>
+      <label class="field">From<input id="from" autocomplete="off" placeholder="The Ramos family"></label>
+    </form>
+    <div class="cartbar"><button class="btn block" id="go">Continue to payment · $50</button></div>
+  </section>
+
+  <section data-screen="done" class="hidden">
+    <div class="done"><div class="tick" id="tick"></div><h1>Gift card sent</h1><p class="muted" id="done-line"></p></div>
+    <div class="mail arrive">
+      <div class="mail-bar"><b>Their inbox</b><span id="t1"></span></div>
+      <div class="mail-head"><p class="mail-subject" id="g-subj"></p><div class="mail-from"><span class="avatar">MB</span><span>Moonbeam Outfitters</span></div></div>
+      <div class="mail-body">
+        <div class="gift" id="g-card" style="box-shadow:var(--shadow-2)"></div>
+        <p class="quote" style="margin-top:12px" id="g-msg"></p>
+        <p class="small muted" style="margin:0">Use it in the shop: show this email at the register.</p>
+      </div>
+    </div>
+    <div class="owner">
+      <p class="lead-in">On the owner’s side</p>
+      <h2 id="o-sold"></h2>
+      <p class="muted" style="margin:0">Paid up front, deposited to your account. Redeemed at your register. You didn’t write anything on the back of a business card.</p>
+    </div>
+    <button class="btn ghost block" style="margin-top:20px" onclick="location.reload()">Buy another</button>
+  </section>
+</div>
+<script>
+  const { $, $$, esc, nowTime, ICON } = MB
+  let st = { d: 'peaks', a: 50 }
+  const artOf = d => $(`[data-d="${d}"]`).innerHTML
+  function paint() {
+    $('#art').innerHTML = artOf(st.d); $('#art').style.cssText = 'position:absolute;inset:0'
+    $('#amt').textContent = '$' + st.a
+    $$('[data-d]').forEach(b => b.setAttribute('aria-pressed', b.dataset.d === st.d))
+    $$('[data-a]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.a === st.a))
+    $('#go').textContent = 'Continue to payment · $' + st.a
+  }
+  $$('[data-d]').forEach(b => b.onclick = () => { st.d = b.dataset.d; paint() })
+  $$('[data-a]').forEach(b => b.onclick = () => { st.a = +b.dataset.a; paint(); MB.steps(2) })
+  $('#go').onclick = () => {
+    MB.steps(2)
+    const to = $('#to').value.trim() || 'Grandpa Joe', from = $('#from').value.trim() || 'The Ramos family', msg = $('#msg').value.trim() || 'Happy holidays! First run’s on us.'
+    MB.pay({ title: 'Moonbeam eGift card', lines: [['Gift card for ' + to, st.a]], onPaid: () => {
+      $('#tick').innerHTML = ICON.check
+      $('#done-line').textContent = `${to} has it in their inbox. You get a receipt too.`
+      $('#t1').textContent = 'just now · ' + nowTime()
+      $('#g-subj').textContent = `${from} sent you a $${st.a} Moonbeam gift card`
+      $('#g-card').innerHTML = `<div style="position:absolute;inset:0">${artOf(st.d)}</div><span class="nm">Moonbeam Outfitters</span><span class="amt">$${st.a}</span>`
+      $('#g-msg').textContent = '“' + msg + '” · ' + from
+      $('#o-sold').textContent = `Sold: $${st.a} gift card, at ${nowTime()}`
+      MB.show('done'); MB.steps(3)
+    } })
+  }
+  paint()
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cta-band"><h2>Want this for your business?</h2><p class="muted">All Over The Moon sets it up for you, in your name. You don’t learn any software.</p><a class="btn" href="/demos/">See all the demos</a></div>
+<p style="margin-top:32px"><a class="aotm" href="/demos/"><img src="/assets/aotm-logo-256.png" alt="" width="40" height="36">All Over The Moon</a></p>
+<p>Demo by All Over The Moon, Rumney, NH. Moonbeam Outfitters, its people, prices and hours are made up.</p>
+</div></footer>
+</body>
+</html>

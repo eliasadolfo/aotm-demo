@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Join our list · Moonbeam demo</title>
+<meta name="description" content="Sign up for the seasonal list and see the welcome email. Nothing typed here is saved.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2B2118">
+<meta property="og:title" content="Join our list · Moonbeam demo">
+<meta property="og:description" content="Sign up for the seasonal list and see the welcome email. Nothing typed here is saved.">
+<meta property="og:image" content="https://demo.alloverthemoon.com/assets/aotm-logo-256.png">
+<link rel="icon" type="image/png" href="/assets/aotm-logo-256.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/demo.css">
+<script src="/assets/config.js"></script>
+<script src="/assets/demo.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ribbon" role="note"><div class="wrap"><b>DEMO</b><span>Moonbeam Outfitters is a pretend shop. Nothing is charged or saved.</span><a href="/demos/">All demos</a></div></div>
+<header class="mb-header"><div class="wrap"><a class="mb-brand" href="/"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#3E5A4C"/><path d="M24.5 8.5a8 8 0 1 0 6.8 11.8 6.4 6.4 0 1 1-6.8-11.8z" fill="#F7F2EC"/><path d="M4 31l9-11 6 7 4-4 13 8.5A20 20 0 0 1 4 31z" fill="#A26F45"/><path d="M13 20l3 3.6-2.2-.6-1.8 2.2-1.6-2.4z" fill="#F7F2EC"/></svg><span>Moonbeam Outfitters</span></a><span class="open" data-open aria-live="polite"></span></div></header>
+<main id="main">
+
+<div class="wrap">
+  <div class="intro">
+    <span class="kicker">Demo 11 · Get Customers Back</span>
+    <h1>First to know when the lifts open</h1>
+    <p>Sign up like a summer visitor at the counter would. One short email a season, nothing else.</p>
+    <div class="steps-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  </div>
+
+  <section data-screen="form">
+    <form class="card" id="f">
+      <label class="field">First name<input id="name" autocomplete="off" placeholder="Taylor"></label>
+      <label class="field">Email<input id="email" type="email" autocomplete="off" placeholder="you@example.com"></label>
+      <p class="panel-title" style="margin-top:16px">I’m a…</p>
+      <div class="chips"><button type="button" class="chip" data-g="local" aria-pressed="false">Local</button><button type="button" class="chip" data-g="visitor" aria-pressed="true">Visitor</button><button type="button" class="chip" data-g="second" aria-pressed="false">Second-home owner</button></div>
+      <label class="check"><input type="checkbox" id="ok"> <span>Yes, email me Moonbeam news. Unsubscribe anytime.</span></label>
+      <button class="btn block" id="go" disabled>Tick the box to join</button>
+      <p class="nosave big center">DEMO: nothing you type is saved or sent.</p>
+    </form>
+  </section>
+
+  <section data-screen="done" class="hidden">
+    <div class="done"><div class="tick" id="tick"></div><h1>You’re on the list</h1><p class="muted">The welcome email is in your inbox.</p></div>
+    <div class="mail arrive">
+      <div class="mail-bar"><b>Inbox</b><span id="t1"></span></div>
+      <div class="mail-head"><p class="mail-subject" id="w-subj"></p><div class="mail-from"><span class="avatar">MB</span><span>Sam at Moonbeam Outfitters</span></div></div>
+      <div class="mail-body">
+        <p id="w-body"></p>
+        <div class="btn-row"><a class="btn sm" href="/book/">Reserve your rental</a></div>
+        <p class="small muted" style="margin:8px 0 0">You’ll hear from us once a season. That’s the promise.</p>
+      </div>
+      <div class="mail-foot">Moonbeam Outfitters (demo) · 1 Moonbeam Way, Lincoln, NH · <u>Unsubscribe</u></div>
+    </div>
+    <div class="owner">
+      <p class="lead-in">On the owner’s side</p>
+      <h2>One list, in groups that make sense</h2>
+      <ul class="cb"><li><b>Visitors</b><span class="tag ok" id="g-visitor">+1 today</span><span class="what">Lifts-open email in November, summer email in May</span></li><li><b>Locals</b><span class="tag" id="g-local">List</span><span class="what">Tune-up deals in the fall</span></li><li><b>Second-home owners</b><span class="tag" id="g-second">List</span><span class="what">Season lease reminder</span></li></ul>
+      <p class="small muted" style="margin:12px 0 0">Built from sign-ups, bookings and gift-card buyers who said yes. Proof of their yes is kept; every email has an unsubscribe link.</p>
+    </div>
+  </section>
+</div>
+<script>
+  const { $, $$, esc, nowTime, ICON } = MB
+  let g = 'visitor'
+  $$('[data-g]').forEach(b => b.onclick = () => { g = b.dataset.g; $$('[data-g]').forEach(x => x.setAttribute('aria-pressed', x === b)) })
+  const check = () => { $('#go').disabled = !$('#ok').checked; $('#go').textContent = $('#ok').checked ? 'Join the list' : 'Tick the box to join'; MB.steps($('#ok').checked ? 2 : 1) }
+  $('#ok').onchange = check
+  $('#go').onclick = () => {
+    const name = $('#name').value.trim() || 'Taylor'
+    $('#tick').innerHTML = ICON.check; $('#t1').textContent = 'just now · ' + nowTime()
+    const m = MB.nhNow().getMonth() + 1, summer = m >= 4 && m <= 8
+    $('#w-subj').textContent = summer ? `Welcome, ${name}! The lake is open` : `Welcome, ${name}! The lifts open soon`
+    $('#w-body').textContent = summer
+      ? `Hi ${name}, thanks for joining. Kayaks, paddleboards and bikes are out every day from 9 to 6. Reserve online and your gear is waiting when you get here.`
+      : `Hi ${name}, thanks for joining. Ski season starts around November 20. Reserve your rental now and pick it up the night before for free, so you’re on the first chair.`
+    ;['visitor', 'local', 'second'].forEach(k => { const t = $('#g-' + k); t.textContent = k === g ? '+1 today' : 'List'; t.className = 'tag' + (k === g ? ' ok' : '') })
+    MB.show('done'); MB.steps(3)
+  }
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cta-band"><h2>Want this for your business?</h2><p class="muted">All Over The Moon sets it up for you, in your name. You don’t learn any software.</p><a class="btn" href="/demos/">See all the demos</a></div>
+<p style="margin-top:32px"><a class="aotm" href="/demos/"><img src="/assets/aotm-logo-256.png" alt="" width="40" height="36">All Over The Moon</a></p>
+<p>Demo by All Over The Moon, Rumney, NH. Moonbeam Outfitters, its people, prices and hours are made up.</p>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Book Online · Moonbeam demo</title>
+<meta name="description" content="Book a rental or tune-up for tomorrow in under a minute, and see the confirmation email.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2B2118">
+<meta property="og:title" content="Book Online · Moonbeam demo">
+<meta property="og:description" content="Book a rental or tune-up for tomorrow in under a minute, and see the confirmation email.">
+<meta property="og:image" content="https://demo.alloverthemoon.com/assets/aotm-logo-256.png">
+<link rel="icon" type="image/png" href="/assets/aotm-logo-256.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/demo.css">
+<script src="/assets/config.js"></script>
+<script src="/assets/demo.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ribbon" role="note"><div class="wrap"><b>DEMO</b><span>Moonbeam Outfitters is a pretend shop. Nothing is charged or saved.</span><a href="/demos/">All demos</a></div></div>
+<header class="mb-header"><div class="wrap"><a class="mb-brand" href="/"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#3E5A4C"/><path d="M24.5 8.5a8 8 0 1 0 6.8 11.8 6.4 6.4 0 1 1-6.8-11.8z" fill="#F7F2EC"/><path d="M4 31l9-11 6 7 4-4 13 8.5A20 20 0 0 1 4 31z" fill="#A26F45"/><path d="M13 20l3 3.6-2.2-.6-1.8 2.2-1.6-2.4z" fill="#F7F2EC"/></svg><span>Moonbeam Outfitters</span></a><span class="open" data-open aria-live="polite"></span></div></header>
+<main id="main">
+
+<div class="wrap">
+  <div class="intro">
+    <span class="kicker">Demo 4 · Get Booked</span>
+    <h1>Book a rental</h1>
+    <p>Book a slot for tomorrow, the way a customer would at 10 at night. Under a minute.</p>
+    <div class="steps-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  </div>
+
+  <section data-screen="pick">
+    <h2 class="panel-title">1 · What do you need?</h2>
+    <div class="options" id="items"></div>
+
+    <h2 class="panel-title" style="margin-top:24px">2 · When?</h2>
+    <div class="chips" id="days"></div>
+    <div class="chips" id="times" style="margin-top:12px"></div>
+    <p class="small muted" style="margin-top:8px">Grey times are already taken.</p>
+
+    <h2 class="panel-title" style="margin-top:24px">3 · How many people?</h2>
+    <div class="qty" style="gap:12px"><button type="button" id="minus" aria-label="One fewer">−</button><output id="people" aria-live="polite">2</output><button type="button" class="add" id="plus" aria-label="One more">+</button></div>
+
+    <form id="who" style="margin-top:24px">
+      <h2 class="panel-title">4 · Your name</h2>
+      <label class="field">Name<input id="name" autocomplete="off" placeholder="Taylor Brooks"></label>
+      <label class="field">Email <span class="hint">Optional in the demo. Nothing is saved or sent.</span><input id="email" type="email" autocomplete="off" placeholder="you@example.com"></label>
+    </form>
+    <div class="cartbar"><button class="btn block" id="go" disabled>Pick a time</button></div>
+  </section>
+
+  <section data-screen="done" class="hidden">
+    <div class="done">
+      <div class="tick" id="tick"></div>
+      <h1>You’re booked</h1>
+      <p class="muted" id="done-line"></p>
+    </div>
+    <div class="mail arrive">
+      <div class="mail-bar"><b>Inbox</b><span id="mail-time"></span></div>
+      <div class="mail-head">
+        <p class="mail-subject">Booking confirmed: <span id="m-what"></span></p>
+        <div class="mail-from"><span class="avatar">MB</span><span>Moonbeam Outfitters · to <span id="m-to"></span></span></div>
+      </div>
+      <div class="mail-body">
+        <p>Hi <span id="m-name"></span>, you’re all set.</p>
+        <dl class="summary"><dt>When</dt><dd id="m-when"></dd><dt>What</dt><dd id="m-item"></dd><dt>Where</dt><dd>1 Moonbeam Way, Lincoln</dd></dl>
+        <p class="small">Free evening pick-up after 3 PM the day before. Free cancellation up to 24 hours ahead.</p>
+        <p class="small muted" style="margin:0">Add to calendar · Reschedule links come in every confirmation.</p>
+      </div>
+      <div class="mail-foot">Sent automatically the moment the booking is made.</div>
+    </div>
+
+    <div class="owner">
+      <p class="lead-in">Meanwhile, on the owner’s phone</p>
+      <h2>It’s already on the schedule</h2>
+      <ul class="cb" id="sched"></ul>
+      <p class="small muted" style="margin:12px 0 0">No call, no sticky note, no double booking. The “Book” button can also go on your Google listing and social pages.</p>
+    </div>
+    <button class="btn ghost block" style="margin-top:20px" onclick="location.reload()">Book another</button>
+  </section>
+</div>
+<script>
+  const { $, $$, esc, addDays, fmtDay, fmtLong, seasonOf, nowTime, ICON } = MB
+  const ITEMS = [
+    { id: 'ski', name: 'Adult ski package', sub: 'Skis, boots, poles', price: 49, unit: 'per person / day' },
+    { id: 'junior', name: 'Junior ski package', sub: '12 and under, free helmet', price: 35, unit: 'per person / day' },
+    { id: 'board', name: 'Snowboard package', sub: 'Board and boots', price: 52, unit: 'per person / day' },
+    { id: 'tune', name: 'Ski or board tune-up', sub: 'Drop-off slot · ready in 24 h', price: 59, unit: 'per pair' }
+  ]
+  const want = new URLSearchParams(location.search).get('item')
+  let st = { item: ITEMS.find(i => i.id === want) ? want : 'ski', day: null, time: null, people: want === 'tune' ? 1 : 2 }
+  const item = () => ITEMS.find(i => i.id === st.item)
+
+  $('#items').innerHTML = ITEMS.map(i => `<button type="button" class="option" data-item="${i.id}"><span><b>${i.name}</b><span>${i.sub}</span></span><span class="price">$${i.price}</span></button>`).join('')
+  // next 7 days, skip closed days of the season
+  const days = []
+  for (let k = 1; days.length < 6 && k < 14; k++) { const d = addDays(k); const h = seasonOf(d).week[d.getDay()]; if (h) days.push({ d, h }) }
+  $('#days').innerHTML = days.map((x, i) => `<button type="button" class="chip" data-day="${i}">${i === 0 && x.d.getDate() === addDays(1).getDate() ? 'Tomorrow' : fmtDay(x.d).replace(/,.*/, '') + ' ' + x.d.getDate()}</button>`).join('')
+  function times() {
+    if (st.day == null) { $('#times').innerHTML = ''; return }
+    const h = days[st.day].h, out = []
+    for (let m = h[0] + 30; m <= h[1] - 90 && out.length < 8; m += 60) out.push(m)
+    const taken = new Set([1, 4, (st.day + 2) % 7])
+    $('#times').innerHTML = out.map((m, i) => { const hh = Math.floor(m / 60), mm = m % 60, lbl = (((hh + 11) % 12) + 1) + ':' + String(mm).padStart(2, '0') + (hh >= 12 ? ' PM' : ' AM'); return `<button type="button" class="chip" data-time="${lbl}" ${taken.has(i) ? 'disabled aria-label="' + lbl + ' taken"' : ''}>${lbl}</button>` }).join('')
+    $$('[data-time]').forEach(b => b.onclick = () => { st.time = b.dataset.time; paint() })
+  }
+  function paint() {
+    $$('[data-item]').forEach(b => b.setAttribute('aria-pressed', b.dataset.item === st.item))
+    $$('[data-day]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.day === st.day))
+    $$('[data-time]').forEach(b => b.setAttribute('aria-pressed', b.dataset.time === st.time))
+    $('#people').textContent = st.people
+    const ok = st.day != null && st.time
+    $('#go').disabled = !ok
+    $('#go').textContent = ok ? `Book · ${MB.money(item().price * st.people)} at pick-up` : st.day == null ? 'Pick a day' : 'Pick a time'
+    MB.steps(ok ? 2 : 1)
+  }
+  $$('[data-item]').forEach(b => b.onclick = () => { st.item = b.dataset.item; paint() })
+  $$('[data-day]').forEach(b => b.onclick = () => { st.day = +b.dataset.day; st.time = null; times(); paint() })
+  $('#minus').onclick = () => { st.people = Math.max(1, st.people - 1); paint() }
+  $('#plus').onclick = () => { st.people = Math.min(8, st.people + 1); paint() }
+  $('#go').onclick = () => {
+    const name = $('#name').value.trim() || 'Taylor', first = name.split(' ')[0], email = $('#email').value.trim() || 'you@example.com'
+    const d = days[st.day].d, it = item()
+    $('#tick').innerHTML = ICON.check
+    $('#done-line').textContent = `${fmtLong(d)} at ${st.time}. The confirmation is in your inbox.`
+    $('#mail-time').textContent = 'just now · ' + nowTime()
+    $('#m-what').textContent = fmtDay(d) + ', ' + st.time
+    $('#m-to').textContent = email; $('#m-name').textContent = first
+    $('#m-when').textContent = fmtLong(d) + ', ' + st.time
+    $('#m-item').textContent = (it.id === 'tune' ? '' : st.people + ' × ') + it.name
+    $('#sched').innerHTML = `<li><b>${esc(st.time)} · ${esc(name)}</b><span class="tag ok">New</span><span class="what">${esc((it.id === 'tune' ? '' : st.people + ' × ') + it.name)} · ${esc(fmtDay(d))}</span></li>
+      <li><b>${esc(st.time === '10:30 AM' ? '11:30 AM' : '10:30 AM')} · Chris M.</b><span class="tag">Booked</span><span class="what">Snowboard package · booked at 10:14 PM</span></li>`
+    MB.show('done'); MB.steps(3)
+  }
+  paint()
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cta-band"><h2>Want this for your business?</h2><p class="muted">All Over The Moon sets it up for you, in your name. You don’t learn any software.</p><a class="btn" href="/demos/">See all the demos</a></div>
+<p style="margin-top:32px"><a class="aotm" href="/demos/"><img src="/assets/aotm-logo-256.png" alt="" width="40" height="36">All Over The Moon</a></p>
+<p>Demo by All Over The Moon, Rumney, NH. Moonbeam Outfitters, its people, prices and hours are made up.</p>
+</div></footer>
+</body>
+</html>
